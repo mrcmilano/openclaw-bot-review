@@ -1,8 +1,84 @@
+# Dependencies
 node_modules
+
+# Next.js build output
 .next
+out
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
 .idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OpenClaw local data
 /.openclaw
+
+# Test results and coverage
+test-results/
+coverage/
+.nyc_output/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache
+.turbo
+.vercel
+
+# Public assets that are generated
 /public/assets/pixel-office/*.mp3
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn
+.yarn-integrity
+.pnp.*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Playwright
+playwright/.cache/
+
+# Test artifacts
+__snapshots__/
+
+# Markdown generated files
+markdown/

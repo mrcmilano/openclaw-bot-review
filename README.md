@@ -1,9 +1,8 @@
-# OpenClaw Dashboard（English）
+# OpenClaw Bot Dashboard
 
 A lightweight web dashboard for viewing all your [OpenClaw](https://github.com/openclaw/openclaw) Bots/Agents/Models/Sessions status at a glance.
-<br>Bots Dashboard：
-![仪表盘预览](docs/bot_dashboard.png)
-Pixel Office：
+
+![Dashboard Preview](docs/bot_dashboard.png)
 ![Pixel Office](docs/pixel-office.png)
 ## Background
 
@@ -22,9 +21,9 @@ This dashboard reads your local OpenClaw configuration and session data, providi
 - **Gateway Health** — Real-time gateway status indicator with 10s auto-polling and one-click jump to OpenClaw web UI
 - **Platform Test** — One-click connectivity test for all Feishu/Discord bindings and DM sessions
 - **Auto Refresh** — Configurable refresh interval (manual, 10s, 30s, 1min, 5min, 10min)
-- **i18n** — Chinese and English UI language switching
+- **English UI** — Clean, English-only interface
 - **Dark/Light Theme** — Theme switcher in sidebar
-- **Pixel Office** — Animated pixel-art office where agents appear as characters that walk, sit, and interact with furniture in real time（The feature is inspired by Pixel Agents）
+- **Pixel Office** — Animated pixel-art office where agents appear as characters that walk, sit, and interact with furniture in real time (inspired by Pixel Agents)
 - **Live Config** — Reads directly from `~/.openclaw/openclaw.json` and local session files, no database needed
 
 ## Preview
@@ -50,30 +49,121 @@ cd OpenClaw-bot-review
 npm install
 
 # Start dev server
-npm run start
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Tech Stack
 
-- Next.js + TypeScript
-- Tailwind CSS
+- **Next.js 16.2.3** + TypeScript (security-patched)
+- **React 19.1.0** + Tailwind CSS
+- **Jest** + React Testing Library + Playwright (testing framework)
 - No database — reads config file directly
 
 ## Requirements
 
-- Node.js 18+
-- OpenClaw installed with config at `~/.openclaw/openclaw.json`
+- **Node.js 18+** (tested with Node.js 22)
+- **OpenClaw** installed with config at `~/.openclaw/openclaw.json`
+- **Testing** (optional): Playwright browsers for E2E tests
 
 ## Configuration
 
 By default, the dashboard reads config from `~/.openclaw/openclaw.json`. To use a custom path, set the `OPENCLAW_HOME` environment variable:
 
 ```bash
-OPENCLAW_HOME=/opt/openclaw 
+OPENCLAW_HOME=/opt/openclaw
 npm run start
 ```
+
+## Authentication
+
+For security, the dashboard now requires HTTP Basic Authentication by default. Create a `.env.local` file based on `.env.example`:
+
+```bash
+# Copy the example file
+cp .env.example .env.local
+
+# Edit with your credentials
+AUTH_USERNAME=admin
+AUTH_PASSWORD=your-secure-password-here
+```
+
+### Authentication Options
+
+- **AUTH_USERNAME**: Username for basic authentication (required unless disabled)
+- **AUTH_PASSWORD**: Password for basic authentication (required unless disabled)
+- **AUTH_DISABLED=true**: Disable authentication completely (for local-only use behind IAP or firewall)
+
+### When to Disable Authentication
+
+Set `AUTH_DISABLED=true` if you are:
+- Running locally behind Google IAP tunneling (as described in deployment scenarios)
+- Using the dashboard only on trusted networks with firewall protection
+- Deploying in isolated environments where network access is already restricted
+
+### Docker Authentication
+
+When running in Docker, pass authentication environment variables:
+
+```bash
+docker run -d -p 3000:3000 \
+  -e AUTH_USERNAME=admin \
+  -e AUTH_PASSWORD=your-password \
+  openclaw-dashboard
+```
+
+## Testing
+
+This project includes comprehensive testing with Jest, React Testing Library, and Playwright for E2E tests.
+
+```bash
+# Run unit and integration tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Run E2E tests (requires Playwright browsers)
+npx playwright install
+npx playwright test
+```
+
+### Test Coverage
+
+- **Unit Tests**: Core utilities, API routes, and security functions
+- **Component Tests**: React components with user interaction testing
+- **E2E Tests**: Full user workflows and integration testing
+- **Security Tests**: Authentication, input validation, and vulnerability testing
+
+See [TESTING_REPORT.md](TESTING_REPORT.md) for detailed information about bugs found, fixes applied, and security improvements.
+
+## Security
+
+This dashboard implements several security measures to protect against common web vulnerabilities:
+
+### 🔒 Security Features
+
+- **HTTP Basic Authentication** - Configurable username/password protection
+- **Input Validation** - Path traversal protection on all API endpoints
+- **Security-Patched Dependencies** - Next.js 16.2.3 and React 19.1.0 with latest security fixes
+- **Environment-Based Configuration** - Sensitive settings via environment variables
+- **Error Handling** - Secure error responses without information disclosure
+
+### 🛡️ Vulnerability Fixes
+
+- **Path Traversal (Critical)**: Fixed in session API endpoints
+- **Dependency Vulnerabilities**: Updated Next.js/React to patch 6+ CVEs
+- **Input Sanitization**: All user inputs validated before file operations
+
+### 🔐 Authentication Options
+
+- **Production**: Use HTTP Basic Auth with strong credentials
+- **Development**: Set `AUTH_DISABLED=true` for local development
+- **IAP Protected**: Disable auth when behind Google Identity-Aware Proxy
 
 ## Docker Deployment
 
@@ -95,82 +185,37 @@ docker run -d -p 3000:3000 openclaw-dashboard
 docker run -d --name openclaw-dashboard -p 3000:3000 -e OPENCLAW_HOME=/opt/openclaw -v /path/to/openclaw:/opt/openclaw openclaw-dashboard
 ```
 
----
+## Development
 
-# OpenClaw Bot Dashboard（中文）
+### Code Quality
 
-一个轻量级 Web 仪表盘，用于一览所有 [OpenClaw](https://github.com/openclaw/openclaw) 机器人/Agent/模型/会话的运行状态。
+- **TypeScript**: Strict type checking enabled
+- **ESLint**: Code linting (via Next.js)
+- **Testing**: Comprehensive test suite with 80%+ coverage target
+- **Security**: Regular dependency updates and security audits
 
-## 背景
+### Contributing
 
-当你在多个平台（飞书、Discord 等）上运行多个 OpenClaw Agent 时，管理和监控会变得越来越复杂——哪个机器人用了哪个模型？平台连通性如何？Gateway 是否正常？Token 消耗了多少？
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Run tests (`npm test`) and ensure they pass
+4. Commit your changes (`git commit -m 'Add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
 
-本仪表盘读取本地 OpenClaw 配置和会话数据，提供统一的 Web 界面来实时监控和测试所有 Agent、模型、平台和会话。无需数据库——所有数据直接来源于 `~/.openclaw/openclaw.json` 和本地会话文件。此外，内置像素风动画办公室，让你的 Agent 化身像素角色在办公室里行走、就座、互动，为枯燥的运维增添一份趣味。
-
-## 功能
-
-- **机器人总览** — 卡片墙展示所有 Agent 的名称、Emoji、模型、平台绑定、会话统计和 Gateway 健康状态
-- **模型列表** — 查看所有已配置的 Provider 和模型，包含上下文窗口、最大输出、推理支持及单模型测试
-- **会话管理** — 按 Agent 浏览所有会话，支持类型识别（私聊、群聊、定时任务）、Token 用量和连通性测试
-- **消息统计** — Token 消耗和平均响应时间趋势，支持按天/周/月查看，SVG 图表展示
-- **技能管理** — 查看所有已安装技能（内置、扩展、自定义），支持搜索和筛选
-- **告警中心** — 配置告警规则（模型不可用、机器人无响应），通过飞书发送通知
-- **Gateway 健康检测** — 实时 Gateway 状态指示器，10 秒自动轮询，点击可跳转 OpenClaw Web 页面
-- **平台连通测试** — 一键测试所有飞书/Discord 绑定和 DM Session 的连通性
-- **自动刷新** — 可配置刷新间隔（手动、10秒、30秒、1分钟、5分钟、10分钟）
-- **国际化** — 支持中英文界面切换
-- **主题切换** — 侧边栏支持深色/浅色主题切换
-- **像素办公室** — 像素风动画办公室，Agent 以像素角色呈现，实时行走、就座、与家具互动
-- **实时配置** — 直接读取 `~/.openclaw/openclaw.json` 和本地会话文件，无需数据库
-
-## 预览
-
-![仪表盘预览](docs/bot_dashboard.png)
-
-![模型列表预览](docs/models-preview.png)
-
-![会话列表预览](docs/sessions-preview.png)
-
-![像素办公室](docs/pixel-office.png)
-
-## 快速开始
-
-更多启动方式请见：[快速启动文档](quick_start.md)。
+### Testing Your Changes
 
 ```bash
-# 克隆仓库
-git clone https://github.com/xmanrui/OpenClaw-bot-review.git
-cd OpenClaw-bot-review
+# Run all tests
+npm test
 
-# 安装依赖
-npm install
+# Run specific test file
+npm test -- __tests__/lib/json.test.ts
 
-# 启动开发服务器
-npm run start
+# Run E2E tests
+npx playwright test
+
+# Generate coverage report
+npm run test:coverage
 ```
 
-浏览器打开 [http://localhost:3000](http://localhost:3000) 即可。
-
-## 技术栈
-
-- Next.js + TypeScript
-- Tailwind CSS
-- 无数据库 — 直接读取配置文件
-
-## 环境要求
-
-- Node.js 18+
-- 已安装 OpenClaw，配置文件位于 `~/.openclaw/openclaw.json`
-
-## 自定义配置路径
-
-默认读取 `~/.openclaw/openclaw.json`，可通过环境变量指定自定义路径：
-
-```bash
-OPENCLAW_HOME=/opt/openclaw 
-npm run start
-```
-
-## 作者联系方式（contact）
-小红书：[主页](https://xhslink.com/m/AsJKWgEBt1I) 
-<br/>微信：xmanr123

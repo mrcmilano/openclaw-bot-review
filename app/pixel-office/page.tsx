@@ -377,11 +377,7 @@ export default function PixelOfficePage() {
   }, [])
 
   // Update OfficeState locale when language changes or when office finishes loading
-  useEffect(() => {
-    if (officeReady) {
-      officeRef.current?.setLocale(locale as 'zh-TW' | 'zh' | 'en')
-    }
-  }, [locale, officeReady])
+
 
   useEffect(() => {
     const mql = window.matchMedia("(max-width: 767px)")
@@ -400,7 +396,6 @@ export default function PixelOfficePage() {
     const loadLayout = async () => {
       if (cachedOfficeState) {
         officeRef.current = cachedOfficeState
-        officeRef.current.setLocale(locale as 'zh-TW' | 'zh' | 'en')
         officeRef.current.updateGatewaySreState(gatewaySreRef.current)
         savedLayoutRef.current = cachedSavedLayout
         editorRef.current = cachedEditorState ?? editorRef.current
@@ -418,13 +413,13 @@ export default function PixelOfficePage() {
         const data = await res.json()
         if (data.layout) {
           const migrated = migrateLayoutColors(data.layout)
-          officeRef.current = new OfficeState(migrated, locale as 'zh-TW' | 'zh' | 'en')
+          officeRef.current = new OfficeState(migrated)
           savedLayoutRef.current = migrated
         } else {
-          officeRef.current = new OfficeState(undefined, locale as 'zh-TW' | 'zh' | 'en')
+          officeRef.current = new OfficeState(undefined)
         }
       } catch {
-        officeRef.current = new OfficeState(undefined, locale as 'zh-TW' | 'zh' | 'en')
+        officeRef.current = new OfficeState(undefined)
       }
       cachedOfficeState = officeRef.current
       officeRef.current?.updateGatewaySreState(gatewaySreRef.current)

@@ -23,4 +23,9 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
+# Authentication environment variables (set at runtime)
+# ENV AUTH_USERNAME=admin
+# ENV AUTH_PASSWORD=change-me-to-a-secure-password
+# ENV AUTH_DISABLED=true  # Uncomment to disable auth (local-only use)
+
 CMD ["node", "server.js"]

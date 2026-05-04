@@ -6,6 +6,12 @@ import { OPENCLAW_HOME } from "@/lib/openclaw-paths";
 export async function GET(_req: Request, { params }: { params: Promise<{ agentId: string }> }) {
   try {
     const { agentId } = await params;
+
+    // Validate agentId to prevent path traversal
+    if (!agentId || typeof agentId !== 'string' || agentId.includes('..') || agentId.includes('/') || agentId.includes('\\')) {
+      return NextResponse.json({ error: 'Invalid agent ID' }, { status: 400 });
+    }
+
     const sessionsPath = path.join(OPENCLAW_HOME, `agents/${agentId}/sessions/sessions.json`);
     const raw = fs.readFileSync(sessionsPath, "utf-8");
     const sessions = JSON.parse(raw);

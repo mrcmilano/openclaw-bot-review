@@ -65,28 +65,26 @@ export default function AlertsPage() {
     }
   }, [config?.checkInterval]);
 
-  const ruleDescriptions = RULE_DESCRIPTIONS[locale as keyof typeof RULE_DESCRIPTIONS] || RULE_DESCRIPTIONS.zh;
-  const isEnglish = locale === "en";
-  const isTraditionalChinese = locale === "zh-TW";
-  const timeLocale = isEnglish ? "en-US" : isTraditionalChinese ? "zh-TW" : "zh-CN";
+  const ruleDescriptions = RULE_DESCRIPTIONS[locale as keyof typeof RULE_DESCRIPTIONS] || RULE_DESCRIPTIONS.en;
+  const timeLocale = "en-US";
   const ui = {
-    minutes5: isEnglish ? "5 minutes" : isTraditionalChinese ? "5 分鐘" : "5 分钟",
-    minutes10: isEnglish ? "10 minutes" : isTraditionalChinese ? "10 分鐘" : "10 分钟",
-    minutes30: isEnglish ? "30 minutes" : isTraditionalChinese ? "30 分鐘" : "30 分钟",
-    hour1: isEnglish ? "1 hour" : isTraditionalChinese ? "1 小時" : "1 小时",
-    hours2: isEnglish ? "2 hours" : isTraditionalChinese ? "2 小時" : "2 小时",
-    hours5: isEnglish ? "5 hours" : isTraditionalChinese ? "5 小時" : "5 小时",
-    checking: isEnglish ? "⏳ Checking..." : isTraditionalChinese ? "⏳ 檢查中..." : "⏳ 检查中...",
-    checkNow: isEnglish ? "🔄 Check Now" : isTraditionalChinese ? "🔄 立即檢查" : "🔄 立即检查",
-    alertsTriggered: isEnglish ? "⚠️ Alerts Triggered" : isTraditionalChinese ? "⚠️ 警報觸發" : "⚠️ 告警触发",
-    checkingAlerts: isEnglish ? "⏳ Checking alerts..." : isTraditionalChinese ? "⏳ 正在檢查警報..." : "⏳ 正在检查告警...",
-    timeout: isEnglish ? "Timeout (s):" : isTraditionalChinese ? "超時 (秒):" : "超时 (秒):",
-    failureRate: isEnglish ? "Failure rate (%):" : isTraditionalChinese ? "失敗率 (%):" : "失败率 (%):",
-    maxFailures: isEnglish ? "Max failures:" : isTraditionalChinese ? "最大失敗數:" : "最大失败数:",
-    threshold: isEnglish ? "Threshold:" : isTraditionalChinese ? "閾值:" : "阈值:",
-    monitor: isEnglish ? "Monitor:" : isTraditionalChinese ? "檢測機器人:" : "检测机器人:",
-    emptyMeansAll: isEnglish ? "(empty = all)" : isTraditionalChinese ? "(不選則檢測所有)" : "(不选则检测所有)",
-    saved: isEnglish ? "Saved" : isTraditionalChinese ? "已保存" : "已保存",
+    minutes5: "5 minutes",
+    minutes10: "10 minutes",
+    minutes30: "30 minutes",
+    hour1: "1 hour",
+    hours2: "2 hours",
+    hours5: "5 hours",
+    checking: "⏳ Checking...",
+    checkNow: "🔄 Check Now",
+    alertsTriggered: "⚠️ Alerts Triggered",
+    checkingAlerts: "⏳ Checking alerts...",
+    timeout: "Timeout (s):",
+    failureRate: "Failure rate (%):",
+    maxFailures: "Max failures:",
+    threshold: "Threshold:",
+    monitor: "Monitor:",
+    emptyMeansAll: "(empty = all)",
+    saved: "Saved",
   };
 
   // 加载配置

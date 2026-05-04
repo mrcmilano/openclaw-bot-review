@@ -746,7 +746,7 @@ export default function Home() {
                               )}
                               {cron.nextRunAt ? (
                                 <span>
-                                  {t("home.agentTaskCronNextRun")} {new Date(cron.nextRunAt).toLocaleTimeString(locale === "zh" ? "zh-CN" : locale, { hour: "2-digit", minute: "2-digit" })}
+                                  {t("home.agentTaskCronNextRun")} {new Date(cron.nextRunAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
                                 </span>
                               ) : null}
                             </div>
@@ -758,7 +758,7 @@ export default function Home() {
                     )}
                   </div>
                   <div className="text-[10px] text-[var(--text-muted)] whitespace-nowrap">
-                    {agent.lastActive ? new Date(agent.lastActive).toLocaleTimeString(locale === "zh" ? "zh-CN" : locale, { hour: "2-digit", minute: "2-digit" }) : ""}
+                    {agent.lastActive ? new Date(agent.lastActive).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : ""}
                   </div>
                 </div>
               ))}

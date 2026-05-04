@@ -7,7 +7,7 @@ import { GlobalBugsOverlay } from "./global-bugs-overlay";
 
 export const metadata: Metadata = {
   title: "OpenClaw Bot Dashboard",
-  description: "查看所有 OpenClaw 机器人配置",
+  description: "View and monitor all OpenClaw bot configurations and sessions",
 };
 
 export const viewport: Viewport = {
@@ -17,7 +17,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>
         <Providers>
           <AlertMonitor />
